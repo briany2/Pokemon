@@ -8,7 +8,6 @@ public class Pokemon {
 	int specialDefense;
 	
 	String name;
-	String change;
 	
 	public Pokemon() {
 		// Empty Constructor
