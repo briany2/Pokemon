@@ -14,14 +14,14 @@ public class Pokemon {
 	}
 	
 	public Pokemon(String identification) {
-		if (identification.equals("Bulbasaur")){
-			this.hp = 45;
-			this.attack = 49;
-			this.defense = 49;
-			this.speed = 45;
-			this.specialAttack = 65;
-			this.specialDefense = 65;
-			this.name = "Bulbasaur";
+		if (identification.equals("Venasaur")){//Venusaur	80	82	83	80	100
+			this.hp = 80;
+			this.attack = 82;
+			this.defense = 83;
+			this.speed = 80;
+			this.specialAttack = 100;
+			this.specialDefense = 100;
+			this.name = "Venasaur";
 		}
 		
 	}
