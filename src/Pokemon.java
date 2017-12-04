@@ -1,29 +1,123 @@
 
 public class Pokemon {
-	int hp;
-	int attack;
-	int defense;
-	int speed;
-	int specialAttack;
-	int specialDefense;
-	
-	String name;
-	
+	private String name;
+
+	private int hp;
+	private int attack;
+	private int defense;
+	private int specialAttack;
+	private int specialDefense;
+	private int speed;
+
+	private PokeType t1;
+	private PokeType t2;
+
 	public Pokemon() {
-		// Empty Constructor
-	}
-	
-	public Pokemon(String identification) {
-		if (identification.equals("Venasaur")){//Venusaur	80	82	83	80	100
-			this.hp = 80;
-			this.attack = 82;
-			this.defense = 83;
-			this.speed = 80;
-			this.specialAttack = 100;
-			this.specialDefense = 100;
-			this.name = "Venasaur";
-		}
 		
 	}
 	
+	/**
+	 * @param name
+	 * @param description
+	 * @param hp
+	 * @param attack
+	 * @param defense
+	 * @param specialAttack
+	 * @param specialDefense
+	 * @param speed
+	 * @param t1
+	 * @param t2
+	 */
+	public Pokemon(String name, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed,
+			PokeType t1, PokeType t2) {
+		this.name = name;
+		this.hp = hp;
+		this.attack = attack;
+		this.defense = defense;
+		this.specialAttack = specialAttack;
+		this.specialDefense = specialDefense;
+		this.speed = speed;
+		this.t1 = t1;
+		this.t2 = t2;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getHp() {
+		return hp;
+	}
+
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+
+	public int getAttack() {
+		return attack;
+	}
+
+	public void setAttack(int attack) {
+		this.attack = attack;
+	}
+
+	public int getDefense() {
+		return defense;
+	}
+
+	public void setDefense(int defense) {
+		this.defense = defense;
+	}
+
+	public int getSpecialAttack() {
+		return specialAttack;
+	}
+
+	public void setSpecialAttack(int specialAttack) {
+		this.specialAttack = specialAttack;
+	}
+
+	public int getSpecialDefense() {
+		return specialDefense;
+	}
+
+	public void setSpecialDefense(int specialDefense) {
+		this.specialDefense = specialDefense;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public PokeType getT1() {
+		return t1;
+	}
+
+	public void setT1(PokeType t1) {
+		this.t1 = t1;
+	}
+
+	public PokeType getT2() {
+		return t2;
+	}
+
+	public void setT2(PokeType t2) {
+		this.t2 = t2;
+	}
+
+	@Override
+	public String toString() {
+		return "Pokemon [name=" + name + ", hp=" + hp + ", attack=" + attack + ", defense=" + defense
+				+ ", specialAttack=" + specialAttack + ", specialDefense=" + specialDefense + ", speed=" + speed
+				+ ", t1=" + t1 + ", t2=" + t2 + "]";
+	}
+
 }
