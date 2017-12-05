@@ -1,13 +1,14 @@
+import java.util.ArrayList;
 
 public class Player {
 	private String name;
-	private Pokemon[] pokemonList = new Pokemon[6];
+	private ArrayList<Pokemon> pokemonList = new ArrayList<Pokemon>();
 
-	public Player() {
-
+	public Player(String name) {
+		this.name = name;
 	}
 
-	public Player(String name, Pokemon[] pokemonList) {
+	public Player(String name, ArrayList<Pokemon> pokemonList) {
 		this.name = name;
 		this.pokemonList = pokemonList;
 	}
@@ -20,11 +21,17 @@ public class Player {
 		this.name = name;
 	}
 
-	public Pokemon[] getPokemonList() {
+	public ArrayList<Pokemon> getPokemonList() {
 		return pokemonList;
 	}
 
-	public void setPokemonList(Pokemon[] pokemonList) {
+	public void setPokemonList(ArrayList<Pokemon> pokemonList) {
 		this.pokemonList = pokemonList;
+	}
+	
+	public void addPokemon(Pokemon p) {
+		if (pokemonList.size() < 6) {
+			pokemonList.add(p);
+		}
 	}
 }
