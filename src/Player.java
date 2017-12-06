@@ -34,4 +34,11 @@ public class Player {
 			pokemonList.add(p);
 		}
 	}
+	
+	public void printPokemonList() {
+		System.out.println("List of " + this.name + "'s Pokemon.");
+		for (int i = 0; i < pokemonList.size(); i++) {
+			System.out.println(i + ". " + pokemonList.get(i).getName());
+		}
+	}
 }

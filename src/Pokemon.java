@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Pokemon {
 	private String name;
@@ -12,10 +13,12 @@ public class Pokemon {
 	private PokeType t1;
 	private PokeType t2;
 
+	private ArrayList<Moves> moveList = new ArrayList<Moves>();
+
 	public Pokemon() {
-		
+
 	}
-	
+
 	/**
 	 * @param name
 	 * @param description
@@ -113,11 +116,29 @@ public class Pokemon {
 		this.t2 = t2;
 	}
 
+	public ArrayList<Moves> getMoveList() {
+		return moveList;
+	}
+
+	public void setMoveList(ArrayList<Moves> moveList) {
+		this.moveList = moveList;
+	}
+
+	public void addMove(Moves m) {
+		if (moveList.size() < 4) {
+			moveList.add(m);
+		}
+	}
+	
+	public void printMoves() {
+		for (int i = 0; i < moveList.size(); i++) {
+			System.out.print(i + ". " + this.getMoveList().get(i).toString());
+		}
+	}
+	
 	@Override
 	public String toString() {
-		return "Pokemon [name=" + name + ", hp=" + hp + ", attack=" + attack + ", defense=" + defense
-				+ ", specialAttack=" + specialAttack + ", specialDefense=" + specialDefense + ", speed=" + speed
-				+ ", t1=" + t1 + ", t2=" + t2 + "]";
+		return name;
 	}
 
 }
