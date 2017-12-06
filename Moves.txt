@@ -1,0 +1,41 @@
+
+
+STATUS;Sleep powder;GRASS;0;75;SLEEP;Puts the target to sleep.;
+SPECIAL;Solar Beam;GRASS;120;100;NONE;After charging for a turn, unleashes the power of the sun onto a target.;
+PHYSICAL;Razor Leaf;GRASS;55;95;NONE;Has a high critical hit ratio.;
+PHYSICAL;Body slam;NORMAL;85;100;PARALYSIS;Slam with a chance to paralyze the target.;
+
+SPECIAL;Flamethrower;FIRE;90;100;BURN;Burninates the target with a 10% chance of burn.;
+PHYSICAL;Slam;NORMAL;80;75;NONE;Slams the target, dealing damage.;
+PHYSICAL;Earthquake;GROUND;100;100;NONE;Natural disaster devastates village, damages target.;
+PHYSICAL;Fly;FLYING;90;95;NONE;Target flies into the air, waits a bit, and strikes the target.;
+
+SPECIAL;Hydropump;WATER;110;80;NONE;Pumps deadly dihydrogen-monoxide at the target.;
+SPECIAL;Surf;WATER;90;100;NONE;Would hit all targets on field in a double battle.;
+SPECIAL;Ice beam;ICE;90;100;FREEZE;Has a chance to freeze the target solid.;
+PHYSICAL;Strength;NORMAL;80;100;NONE;Allows you to move boulder if used outside of combat.;
+
+STATUS;Hypnosis;PSYCHIC;0;60;SLEEP;Puts the target to sleep.;
+SPECIAL;Dream Eater;PSYCHIC;100;100;NONE;Only works on sleeping opponents, user regains half dmg dealt.;
+SPECIAL;Psychic;PSYCHIC;90;100;NONE;May lower target's special defense (in a later patch).;
+SPECIAL;Mega Drain;GRASS;40;100;NONE;User regains half of the damage dealt to target.;
+
+PHYSICAL;Slash;NORMAL;70;100;NONE;Has a high critical hit ratio.;
+STATUS;Swords Dance;NORMAL;0;100;NONE;Raises the user's attack stat by 2 stages (in a later patch).;
+PHYSICAL;Double-Edge;NORMAL;120;100;NONE;User receives recoil damage equal to 1/3 dmg dealt.;
+SPECIAL;Swift;NORMAL;60;100;NONE;This move can never miss.;
+
+SPECIAL;Sludge;POISON;65;100;POISON;May poison the target.;
+STATUS;Toxic;POISION;0;90;POISON;Poisons the target.;
+SPECIAL;Thunderbolt;ELECTRIC;90;100;PARALYSIS;May paralyze the target.;
+STATUS;Smokescreen;NORMAL;0;100;NONE;May lower target's accuracy  (in a later patch).;
+
+PHYSICAL;Self-Destruct;NORMAL;200;100;NONE;User faints upon using.;
+PHYSICAL;Earthquake;GROUND;100;100;NONE;Natural disaster devastates village, damages target.;
+PHYSICAL;Dig;GROUND;80;100;NONE;User digs underground, then emerges dealing damage to the target.;
+STATUS;Harden;NORMAL;0;0;NONE;Raises the user's defense stat by 1 stage (in a later patch).;
+
+PHYSICAL;Rock Slide;ROCK;75;90;FLINCH;May cause target to flinch.;
+PHYSICAL;Strength;NORMAL;80;100;NONE;Allows you to move boulder if used outside of combat.;
+PHYSICAL;Submission;FIGHTING;80;80;NONE;User receives recoil damage equal to 1/3 dmg dealt.;
+PHYSICAL;Mega Kick;NORMAL;120;75;NONE;Kicks the target mega hard.;
