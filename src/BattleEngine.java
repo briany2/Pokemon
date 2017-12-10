@@ -94,9 +94,6 @@ public class BattleEngine {
 				p.setT2(PokeType.valueOf(a[8]));
 				player2.addPokemon(p);
 			}
-//			System.out.println(player1.getName() + player1.getPokemonList());
-//			System.out.println(player2.getName() + player2.getPokemonList());
-//			System.out.println("Sending out random Pokemon for each player...");
 			System.out.println(player1.getName() + " has sent out " + player1.getPokemonList().get(0) + "!");
 			System.out.println(player2.getName() + " has sent out " + player2.getPokemonList().get(0) + "!");
 
@@ -120,13 +117,13 @@ public class BattleEngine {
 					kb.next();
 				}
 				printTurn(current, choice);
-				if (choice == 1) { //fight choice, ends turn if fight goes through
+				if (choice == 1) { // fight choice, ends turn if fight goes through
 					int choice2 = 0;
 					try {
 						choice2 = kb.nextInt();
 						if (printFight(current, waiting, choice2)) {
-							//should call the damage control to calculate damage for both pokemon
-							//should prompt for new pokemon if recoil kills attacker
+							// should call the damage control to calculate damage for both pokemon
+							// should prompt for new pokemon if recoil kills attacker
 							playerOneTurn = !playerOneTurn;
 						}
 					} catch (InputMismatchException exception) {
@@ -134,7 +131,7 @@ public class BattleEngine {
 						kb.next();
 					}
 				}
-				if (choice == 2) { //switch out choice, ends turn if switch goes through
+				if (choice == 2) { // switch out choice, ends turn if switch goes through
 					int choice2 = 0;
 					try {
 						choice2 = kb.nextInt();
@@ -147,9 +144,10 @@ public class BattleEngine {
 					}
 				}
 				if (checkFainted(current) && getAllAlive(current)) {
-					while(true) {
+					while (true) {
 						int choice2 = 0;
 						try {
+							printSwitch(current);
 							choice2 = kb.nextInt();
 							if (printSendOut(current, choice2)) {
 								break;
@@ -161,9 +159,10 @@ public class BattleEngine {
 					}
 				}
 				if (checkFainted(waiting) && getAllAlive(waiting)) {
-					while(true) {
+					while (true) {
 						int choice2 = 0;
 						try {
+							printSwitch(waiting);
 							choice2 = kb.nextInt();
 							if (printSendOut(waiting, choice2)) {
 								break;
@@ -202,7 +201,7 @@ public class BattleEngine {
 		System.out.println("5. Get Current Pokemon");
 	}
 
-	public static boolean printTurn(Player play, int choice) { //prints information about a given player's turn
+	public static boolean printTurn(Player play, int choice) { // prints information about a given player's turn
 		switch (choice) {
 		case 1:
 			printFightOptions(play);
@@ -225,7 +224,7 @@ public class BattleEngine {
 		return true;
 	}
 
-	public static void printFightOptions(Player play) { 
+	public static void printFightOptions(Player play) {
 		System.out.println(play.getName() + ", choose a move for " + play.getPokemonList().get(0) + "!");
 		play.getPokemonList().get(0).printMoves();
 	}
@@ -261,15 +260,28 @@ public class BattleEngine {
 			return false;
 		}
 		System.out.println(play.getPokemonList().get(0) + " used "
-				+ play.getPokemonList().get(0).getMoveList().get(choice).getName() + " on " + play2.getPokemonList().get(0) + "!");
-				//call damage control's damage message method for more string information
-		play.getPokemonList().get(0).getMoveList().get(choice);
+				+ play.getPokemonList().get(0).getMoveList().get(choice).getName() + " on "
+				+ play2.getPokemonList().get(0) + "!");
+		// call damage control's damage message method for more string information
+		DamageControl d = new DamageControl(play.getPokemonList().get(0), play2.getPokemonList().get(0),
+				play.getPokemonList().get(0).getMoveList().get(choice));
+		int getDamage = d.getDamage(play.getPokemonList().get(0), play2.getPokemonList().get(0),
+				play.getPokemonList().get(0).getMoveList().get(choice));
+		int newHp = play2.getPokemonList().get(0).getHp() - getDamage;
+		play2.getPokemonList().get(0).setHp(newHp);
+		if (play2.getPokemonList().get(0).getHp() < 0) {
+			System.out.println(play2.getPokemonList().get(0) + " has fainted!");
+		}
 		return true;
 	}
 
 	public static boolean printSendOut(Player play, int choice2) {
 		if (choice2 >= play.getPokemonList().size()) {
 			System.out.println("Invalid Number.");
+			return false;
+		}
+		if (play.getPokemonList().get(choice2).getHp() <= 0) { 
+			System.out.println(play.getPokemonList().get(0) + " can not battle, choose another Pokemon.");
 			return false;
 		} else {
 			System.out.println(play.getPokemonList().get(0) + ", come back!");
@@ -278,8 +290,9 @@ public class BattleEngine {
 			return true;
 		}
 	}
+
 	public static boolean checkFainted(Player play) {
-		if (play.getPokemonList().get(0).getHp() <= 0) { //changed to less than or equal to 0
+		if (play.getPokemonList().get(0).getHp() <= 0) { // changed to less than or equal to 0
 			return true;
 		}
 		return false;
