@@ -120,11 +120,13 @@ public class BattleEngine {
 					kb.next();
 				}
 				printTurn(current, choice);
-				if (choice == 1) {
+				if (choice == 1) { //fight choice, ends turn if fight goes through
 					int choice2 = 0;
 					try {
 						choice2 = kb.nextInt();
 						if (printFight(current, waiting, choice2)) {
+							//should call the damage control to calculate damage for both pokemon
+							//should prompt for new pokemon if recoil kills attacker
 							playerOneTurn = !playerOneTurn;
 						}
 					} catch (InputMismatchException exception) {
@@ -132,7 +134,7 @@ public class BattleEngine {
 						kb.next();
 					}
 				}
-				if (choice == 2) {
+				if (choice == 2) { //switch out choice, ends turn if switch goes through
 					int choice2 = 0;
 					try {
 						choice2 = kb.nextInt();
@@ -200,7 +202,7 @@ public class BattleEngine {
 		System.out.println("5. Get Current Pokemon");
 	}
 
-	public static boolean printTurn(Player play, int choice) {
+	public static boolean printTurn(Player play, int choice) { //prints information about a given player's turn
 		switch (choice) {
 		case 1:
 			printFightOptions(play);
@@ -223,7 +225,7 @@ public class BattleEngine {
 		return true;
 	}
 
-	public static void printFightOptions(Player play) {
+	public static void printFightOptions(Player play) { 
 		System.out.println(play.getName() + ", choose a move for " + play.getPokemonList().get(0) + "!");
 		play.getPokemonList().get(0).printMoves();
 	}
@@ -260,6 +262,7 @@ public class BattleEngine {
 		}
 		System.out.println(play.getPokemonList().get(0) + " used "
 				+ play.getPokemonList().get(0).getMoveList().get(choice).getName() + " on " + play2.getPokemonList().get(0) + "!");
+				//call damage control's damage message method for more string information
 		play.getPokemonList().get(0).getMoveList().get(choice);
 		return true;
 	}
@@ -276,7 +279,7 @@ public class BattleEngine {
 		}
 	}
 	public static boolean checkFainted(Player play) {
-		if (play.getPokemonList().get(0).getHp() == 0) {
+		if (play.getPokemonList().get(0).getHp() <= 0) { //changed to less than or equal to 0
 			return true;
 		}
 		return false;
