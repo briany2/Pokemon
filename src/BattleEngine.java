@@ -212,8 +212,7 @@ public class BattleEngine {
 							kb.next();
 						}
 					}
-				}
-				if (checkFainted(player2) && getAllAlive(player2)) {
+				} else if (checkFainted(player2) && getAllAlive(player2)) {
 					while (true) {
 						try {
 							printSwitch(player2);
@@ -296,13 +295,14 @@ public class BattleEngine {
 		}
 		System.out.println(play.getName() + " has " + count + " alive Pokemon.");
 		if (count == 0) {
+			System.out.println(play.getName()+ " has no usable Pokemon!");
 			return false;
 		}
 		return true;
 	}
 
 	public static void getCurrentPokemon(Player play) {
-		System.out.println(play.getPokemonList().get(0) + "|" + play.getPokemonList().get(0).getHp());
+		System.out.println(play.getPokemonList().get(0) + " | " + play.getPokemonList().get(0).getHp());
 	}
 
 	public static boolean printFight(Player play, Player play2, int choice) {
@@ -314,16 +314,18 @@ public class BattleEngine {
 				+ play.getPokemonList().get(0).getMoveList().get(choice).getName() + " on "
 				+ play2.getPokemonList().get(0) + "!");
 		// call damage control's damage message method for more string information
-		DamageControl d = new DamageControl(play.getPokemonList().get(0), play2.getPokemonList().get(0),//constructor call
+		DamageControl d = new DamageControl(play.getPokemonList().get(0), play2.getPokemonList().get(0), // constructor
+																											// call
 				play.getPokemonList().get(0).getMoveList().get(choice));
-		
-		int getDamage = d.getDamage(play.getPokemonList().get(0), play2.getPokemonList().get(0),//
+
+		int getDamage = d.getDamage(play.getPokemonList().get(0), play2.getPokemonList().get(0), //
 				play.getPokemonList().get(0).getMoveList().get(choice));
-		
+
 		int newHp = play2.getPokemonList().get(0).getHp() - getDamage;
-		
+
 		play2.getPokemonList().get(0).setHp(newHp);
 		if (play2.getPokemonList().get(0).getHp() < 0) {
+			play2.getPokemonList().get(0).setHp(0);
 			System.out.println(play2.getPokemonList().get(0) + " has fainted!");
 		}
 		return true;
@@ -355,26 +357,26 @@ public class BattleEngine {
 	public void checkStatus(Player play) {
 		Random rand = new Random();
 		switch (play.getPokemonList().get(0).getCondition()) {
-			case BURN:
-				int burned = play.getPokemonList().get(0).getHp() - 10;
-				play.getPokemonList().get(0).setHp(burned);
-				break;
-			case FLINCH:
-				break;
-			case FREEZE:
-				break;
-			case PARALYSIS:
-				play.getPokemonList().get(0).setSpeed(0);
-				break;
-			case POISON:
-				int poisoned = play.getPokemonList().get(0).getHp() - 10;
-				play.getPokemonList().get(0).setHp(poisoned);
-				break;
-			case SLEEP:
-				
-				break;
-			default:
-				break;
+		case BURN:
+			int burned = play.getPokemonList().get(0).getHp() - 10;
+			play.getPokemonList().get(0).setHp(burned);
+			break;
+		case FLINCH:
+			break;
+		case FREEZE:
+			break;
+		case PARALYSIS:
+			play.getPokemonList().get(0).setSpeed(0);
+			break;
+		case POISON:
+			int poisoned = play.getPokemonList().get(0).getHp() - 10;
+			play.getPokemonList().get(0).setHp(poisoned);
+			break;
+		case SLEEP:
+
+			break;
+		default:
+			break;
 		}
 
 	}

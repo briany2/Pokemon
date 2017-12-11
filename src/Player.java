@@ -28,13 +28,13 @@ public class Player {
 	public void setPokemonList(ArrayList<Pokemon> pokemonList) {
 		this.pokemonList = pokemonList;
 	}
-	
+
 	public void addPokemon(Pokemon p) {
 		if (pokemonList.size() < 6) {
 			pokemonList.add(p);
 		}
 	}
-	
+
 	public void printPokemonList() {
 		System.out.println("List of " + this.name + "'s Pokemon.");
 		for (int i = 0; i < pokemonList.size(); i++) {
