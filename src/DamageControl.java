@@ -1,17 +1,40 @@
+import java.util.Random;
 
 public class DamageControl {
 	public Pokemon attacker;
 	public Pokemon defender;
 	public Moves move;
+	Random rand = new Random();
 
 	public DamageControl(Pokemon attacker, Pokemon defender, Moves move) {
 		this.attacker = attacker;
 		this.defender = defender;
 		this.move = move;
 	}
+	
+	public int setStatus(Pokemon attacker, Pokemon defender, Moves move) {
+		int n = rand.nextInt(100 + 1);
+		if (n > move.getAccuracy()) {
+			System.out.println(attacker + "'s attack missed!");
+			return 0;
+		}
+		if (defender.getCondition() == PokeCondition.NONE) {
+			defender.setCondition(move.getCondition());
+		}
+		return 0;
+	}
 
 	public int dealPhysicalDamage(Pokemon attacker, Pokemon defender, Moves move) {
+		int n = rand.nextInt(100 + 1);
+		if (n > move.getAccuracy()) {
+			System.out.println(attacker + "'s attack missed!");
+			return 0;
+		}
 		int damage = ((18 * move.getDamage() * attacker.getAttack() / defender.getDefense()) / 50 + 2);
+		if (n < 10) {
+			System.out.println("Critical Hit!");
+			damage = damage * 3;
+		}
 		int effective = isEffective(move, defender);
 		if (effective == -1) {
 			System.out.println("It's not very effective...");
@@ -29,7 +52,16 @@ public class DamageControl {
 	}
 
 	public int dealSpecialDamage(Pokemon attacker, Pokemon defender, Moves move) {
+		int n = rand.nextInt(100 + 1);
+		if (n > move.getAccuracy()) {
+			System.out.println(attacker + "'s attack missed!");
+			return 0;
+		}
 		int damage = ((18 * move.getDamage() * attacker.getSpecialAttack() / defender.getSpecialDefense()) / 50 + 2);
+		if (n < 10) {
+			System.out.println("Critical Hit!");
+			damage = damage * 3;
+		}
 		int effective = isEffective(move, defender);
 		if (effective == -1) {
 			System.out.println("It's not very effective...");
@@ -789,34 +821,6 @@ public class DamageControl {
 			}
 		default:
 			return 0;
-		}
-	}
-
-	public boolean statusCheck(Pokemon attacker, Pokemon defender, Moves move) { // returns whether or not a status
-																					// happened
-		int randomNumber = (int) (Math.random() * 100);
-		if (randomNumber <= move.getAccuracy()) { // burn chance would be here in place of getAccuracy if moves had
-													// status chances in them.
-			return true;
-		} else
-			return false;
-	}
-
-	public void damageMessage() {// should print "super effective" (or not) "critical hit!" (or not) and
-									// "defender now has x hp" "status" (or not)
-		if (hitCheck(this.attacker, this.defender, this.move) == false) {
-			System.out.println(this.attacker.getName() + "'s attack missed!");
-			return;
-		}
-		if (move.getMoveType().equals("STATUS")) {
-			if (this.statusCheck(this.attacker, this.defender, this.move)) {
-				System.out.print(this.defender.getName() + "has been" + this.move.getCondition() + "ed");
-			}
-		}
-		if (this.getDamage(this.attacker, this.defender, this.move) == 0) {
-			System.out.print("The attack did no damage!");
-		} else {
-			System.out.print("");
 		}
 	}
 }

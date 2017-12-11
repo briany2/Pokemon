@@ -99,57 +99,110 @@ public class BattleEngine {
 
 			boolean playerOneTurn = true;
 			while (getAllAlive(player1) && getAllAlive(player2)) {
-				Player current;
-				Player waiting;
-				if (playerOneTurn) {
-					current = player1;
-					waiting = player2;
-				} else {
-					current = player2;
-					waiting = player1;
-				}
-				printTurnOptions(current);
 				int choice = 0;
-				try {
-					choice = kb.nextInt();
-				} catch (InputMismatchException exception) {
-					System.out.println("Integers only, please.");
-					kb.next();
-				}
-				printTurn(current, choice);
-				if (choice == 1) { // fight choice, ends turn if fight goes through
-					int choice2 = 0;
+				int fightChoice = -1;
+				int switchChoice = -1;
+				int fightChoice2 = -1;
+				int switchChoice2 = -1;
+				while (playerOneTurn) {
+					printTurnOptions(player1);
 					try {
-						choice2 = kb.nextInt();
-						if (printFight(current, waiting, choice2)) {
-							// should call the damage control to calculate damage for both pokemon
-							// should prompt for new pokemon if recoil kills attacker
-							playerOneTurn = !playerOneTurn;
-						}
+						choice = kb.nextInt();
 					} catch (InputMismatchException exception) {
 						System.out.println("Integers only, please.");
 						kb.next();
 					}
-				}
-				if (choice == 2) { // switch out choice, ends turn if switch goes through
-					int choice2 = 0;
-					try {
-						choice2 = kb.nextInt();
-						if (printSendOut(current, choice2)) {
-							playerOneTurn = !playerOneTurn;
-						}
-					} catch (InputMismatchException exception) {
-						System.out.println("Integers only, please.");
-						kb.next();
-					}
-				}
-				if (checkFainted(current) && getAllAlive(current)) {
-					while (true) {
-						int choice2 = 0;
+					printTurn(player1, choice);
+					if (choice == 1) { // fight choice, ends turn if fight goes through
 						try {
-							printSwitch(current);
-							choice2 = kb.nextInt();
-							if (printSendOut(current, choice2)) {
+							fightChoice = kb.nextInt();
+							playerOneTurn = !playerOneTurn;
+						} catch (InputMismatchException exception) {
+							System.out.println("Integers only, please.");
+							kb.next();
+						}
+					}
+					if (choice == 2) {
+						try {
+							switchChoice = kb.nextInt();
+							playerOneTurn = !playerOneTurn;
+						} catch (InputMismatchException exception) {
+							System.out.println("Integers only, please.");
+							kb.next();
+						}
+					}
+				}
+				while (!playerOneTurn) {
+					printTurnOptions(player2);
+					try {
+						choice = kb.nextInt();
+					} catch (InputMismatchException exception) {
+						System.out.println("Integers only, please.");
+						kb.next();
+					}
+					printTurn(player2, choice);
+					if (choice == 1) { // fight choice, ends turn if fight goes through
+						try {
+							fightChoice2 = kb.nextInt();
+							playerOneTurn = !playerOneTurn;
+						} catch (InputMismatchException exception) {
+							System.out.println("Integers only, please.");
+							kb.next();
+						}
+					}
+					if (choice == 2) {
+						try {
+							switchChoice2 = kb.nextInt();
+							playerOneTurn = !playerOneTurn;
+						} catch (InputMismatchException exception) {
+							System.out.println("Integers only, please.");
+							kb.next();
+						}
+					}
+				}
+				if (switchChoice != -1) {
+					printSendOut(player1, switchChoice);
+				}
+				if (switchChoice2 != -1) {
+					printSendOut(player2, switchChoice2);
+				}
+				if (fightChoice == -1) {
+					if (fightChoice2 == -1) {
+						System.out.println();
+					} else {
+						printFight(player2, player1, fightChoice2);
+						System.out.println();
+					}
+				}
+				if (fightChoice2 == -1) {
+					if (fightChoice == -1) {
+						System.out.println();
+					} else {
+						printFight(player1, player2, fightChoice);
+						System.out.println();
+					}
+				}
+				if (player1.getPokemonList().get(0).getSpeed() > player2.getPokemonList().get(0).getSpeed()
+						&& fightChoice != -1 && fightChoice2 != -1) {
+					printFight(player1, player2, fightChoice);
+					if (!checkFainted(player2)) {
+						printFight(player2, player1, fightChoice2);
+						System.out.println();
+					}
+				} else if (player1.getPokemonList().get(0).getSpeed() <= player2.getPokemonList().get(0).getSpeed()
+						&& fightChoice != -1 && fightChoice2 != -1) {
+					printFight(player2, player1, fightChoice2);
+					if (!checkFainted(player1)) {
+						printFight(player1, player2, fightChoice);
+						System.out.println();
+					}
+				}
+				if (checkFainted(player1) && getAllAlive(player1)) {
+					while (true) {
+						try {
+							printSwitch(player1);
+							int replace = kb.nextInt();
+							if (printSendOut(player1, replace)) {
 								break;
 							}
 						} catch (InputMismatchException exception) {
@@ -158,13 +211,12 @@ public class BattleEngine {
 						}
 					}
 				}
-				if (checkFainted(waiting) && getAllAlive(waiting)) {
+				if (checkFainted(player2) && getAllAlive(player2)) {
 					while (true) {
-						int choice2 = 0;
 						try {
-							printSwitch(waiting);
-							choice2 = kb.nextInt();
-							if (printSendOut(waiting, choice2)) {
+							printSwitch(player2);
+							int replace = kb.nextInt();
+							if (printSendOut(player2, replace)) {
 								break;
 							}
 						} catch (InputMismatchException exception) {
@@ -197,8 +249,7 @@ public class BattleEngine {
 		System.out.println("1. Fight");
 		System.out.println("2. Switch");
 		System.out.println("3. Print Pokemon List");
-		System.out.println("4. Get Alive Pokemon");
-		System.out.println("5. Get Current Pokemon");
+		System.out.println("4. Get Current Pokemon HP and Status");
 	}
 
 	public static boolean printTurn(Player play, int choice) { // prints information about a given player's turn
@@ -213,11 +264,8 @@ public class BattleEngine {
 			play.printPokemonList();
 			break;
 		case 4:
-			play.printPokemonList();
-			getAllAlive(play);
-			break;
-		case 5:
 			getCurrentPokemon(play);
+			break;
 		default:
 			break;
 		}
@@ -232,7 +280,8 @@ public class BattleEngine {
 	public static void printSwitch(Player play) {
 		System.out.println(play.getName() + ", choose a Pokemon to send out!");
 		for (int i = 0; i < play.getPokemonList().size(); i++) {
-			System.out.println(i + ". " + play.getPokemonList().get(i));
+			System.out.println(
+					i + ". " + play.getPokemonList().get(i) + " | HP: " + play.getPokemonList().get(i).getHp());
 		}
 	}
 
@@ -251,7 +300,7 @@ public class BattleEngine {
 	}
 
 	public static void getCurrentPokemon(Player play) {
-		System.out.println(play.getPokemonList().get(0));
+		System.out.println(play.getPokemonList().get(0) + "|" + play.getPokemonList().get(0).getHp());
 	}
 
 	public static boolean printFight(Player play, Player play2, int choice) {
@@ -280,8 +329,8 @@ public class BattleEngine {
 			System.out.println("Invalid Number.");
 			return false;
 		}
-		if (play.getPokemonList().get(choice2).getHp() <= 0) { 
-			System.out.println(play.getPokemonList().get(0) + " can not battle, choose another Pokemon.");
+		if (play.getPokemonList().get(choice2).getHp() <= 0) {
+			System.out.println(play.getPokemonList().get(choice2) + " can not battle, choose another Pokemon.");
 			return false;
 		} else {
 			System.out.println(play.getPokemonList().get(0) + ", come back!");
@@ -296,5 +345,32 @@ public class BattleEngine {
 			return true;
 		}
 		return false;
+	}
+
+	public void checkStatus(Player play) {
+		Random rand = new Random();
+		switch (play.getPokemonList().get(0).getCondition()) {
+			case BURN:
+				int burned = play.getPokemonList().get(0).getHp() - 10;
+				play.getPokemonList().get(0).setHp(burned);
+				break;
+			case FLINCH:
+				break;
+			case FREEZE:
+				break;
+			case PARALYSIS:
+				play.getPokemonList().get(0).setSpeed(0);
+				break;
+			case POISON:
+				int poisoned = play.getPokemonList().get(0).getHp() - 10;
+				play.getPokemonList().get(0).setHp(poisoned);
+				break;
+			case SLEEP:
+				
+				break;
+			default:
+				break;
+		}
+
 	}
 }

@@ -13,6 +13,8 @@ public class Pokemon {
 	private PokeType t1;
 	private PokeType t2;
 
+	private PokeCondition condition;
+
 	private ArrayList<Moves> moveList = new ArrayList<Moves>();
 
 	public Pokemon() {
@@ -30,9 +32,10 @@ public class Pokemon {
 	 * @param speed
 	 * @param t1
 	 * @param t2
+	 * @param condition
 	 */
 	public Pokemon(String name, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed,
-			PokeType t1, PokeType t2) {
+			PokeType t1, PokeType t2, PokeCondition p1) {
 		this.name = name;
 		this.hp = hp;
 		this.attack = attack;
@@ -42,6 +45,7 @@ public class Pokemon {
 		this.speed = speed;
 		this.t1 = t1;
 		this.t2 = t2;
+		this.condition = p1;
 	}
 
 	public String getName() {
@@ -129,13 +133,21 @@ public class Pokemon {
 			moveList.add(m);
 		}
 	}
-	
+
 	public void printMoves() {
 		for (int i = 0; i < moveList.size(); i++) {
 			System.out.print(i + ". " + this.getMoveList().get(i).toString());
 		}
 	}
-	
+
+	public PokeCondition getCondition() {
+		return condition;
+	}
+
+	public void setCondition(PokeCondition condition) {
+		this.condition = condition;
+	}
+
 	@Override
 	public String toString() {
 		return name;
