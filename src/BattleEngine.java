@@ -62,6 +62,7 @@ public class BattleEngine {
 				p.setSpecialDefense(Integer.parseInt(a[6]));
 				p.setT1(PokeType.valueOf(a[7]));
 				p.setT2(PokeType.valueOf(a[8]));
+				p.setTrainer(p1name);
 				player1.addPokemon(p);
 			}
 			ex.clear();
@@ -92,6 +93,7 @@ public class BattleEngine {
 				p.setSpecialDefense(Integer.parseInt(a[6]));
 				p.setT1(PokeType.valueOf(a[7]));
 				p.setT2(PokeType.valueOf(a[8]));
+				p.setTrainer(p2name);
 				player2.addPokemon(p);
 			}
 			System.out.println(player1.getName() + " has sent out " + player1.getPokemonList().get(0) + "!");
@@ -312,11 +314,14 @@ public class BattleEngine {
 				+ play.getPokemonList().get(0).getMoveList().get(choice).getName() + " on "
 				+ play2.getPokemonList().get(0) + "!");
 		// call damage control's damage message method for more string information
-		DamageControl d = new DamageControl(play.getPokemonList().get(0), play2.getPokemonList().get(0),
+		DamageControl d = new DamageControl(play.getPokemonList().get(0), play2.getPokemonList().get(0),//constructor call
 				play.getPokemonList().get(0).getMoveList().get(choice));
-		int getDamage = d.getDamage(play.getPokemonList().get(0), play2.getPokemonList().get(0),
+		
+		int getDamage = d.getDamage(play.getPokemonList().get(0), play2.getPokemonList().get(0),//
 				play.getPokemonList().get(0).getMoveList().get(choice));
+		
 		int newHp = play2.getPokemonList().get(0).getHp() - getDamage;
+		
 		play2.getPokemonList().get(0).setHp(newHp);
 		if (play2.getPokemonList().get(0).getHp() < 0) {
 			System.out.println(play2.getPokemonList().get(0) + " has fainted!");

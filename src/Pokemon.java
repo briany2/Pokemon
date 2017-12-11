@@ -2,18 +2,24 @@ import java.util.ArrayList;
 
 public class Pokemon {
 	private String name;
-
+	private String trainer;
+	
+	
+	
 	private int hp;
 	private int attack;
 	private int defense;
 	private int specialAttack;
 	private int specialDefense;
 	private int speed;
+	
+	private boolean willLoseNextTurn; //boolean that tells my conditions whether or not this pokemon is set to lose it's next turn.
 
 	private PokeType t1;
 	private PokeType t2;
 
 	private PokeCondition condition;
+	private PokeCondition initialCondition; //need this to be allowed.
 
 	private ArrayList<Moves> moveList = new ArrayList<Moves>();
 
@@ -46,6 +52,22 @@ public class Pokemon {
 		this.t1 = t1;
 		this.t2 = t2;
 		this.condition = p1;
+		this.initialCondition = p1; // i need this to be set to NONE so i can reset an afflicted pokemon's condition to NONE when it's condition wares off.
+	}
+	
+	public boolean getWillLoseNextTurn() { //boolean that tells my condition methods if this pokemon is set to lose it's next turn.
+		return this.willLoseNextTurn;
+	}
+	public void setWillLoseNextTurn(boolean trueOrFalse) {
+		this.willLoseNextTurn = trueOrFalse;
+	}
+	
+	public String getTrainer() {
+		return trainer;
+	}
+	
+	public void setTrainer(String trainerName) {
+		this.trainer = trainerName;
 	}
 
 	public String getName() {
@@ -142,6 +164,10 @@ public class Pokemon {
 
 	public PokeCondition getCondition() {
 		return condition;
+	}
+	
+	public PokeCondition getInitialCondition() {
+		return initialCondition;
 	}
 
 	public void setCondition(PokeCondition condition) {

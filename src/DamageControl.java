@@ -5,23 +5,13 @@ public class DamageControl {
 	public Pokemon defender;
 	public Moves move;
 	Random rand = new Random();
+	public boolean fightEnded;
 
-	public DamageControl(Pokemon attacker, Pokemon defender, Moves move) {
+	DamageControl(Pokemon attacker, Pokemon defender, Moves move) {
 		this.attacker = attacker;
 		this.defender = defender;
 		this.move = move;
-	}
-	
-	public int setStatus(Pokemon attacker, Pokemon defender, Moves move) {
-		int n = rand.nextInt(100 + 1);
-		if (n > move.getAccuracy()) {
-			System.out.println(attacker + "'s attack missed!");
-			return 0;
-		}
-		if (defender.getCondition() == PokeCondition.NONE) {
-			defender.setCondition(move.getCondition());
-		}
-		return 0;
+		fightEnded = false;
 	}
 
 	public int dealPhysicalDamage(Pokemon attacker, Pokemon defender, Moves move) {
@@ -70,15 +60,32 @@ public class DamageControl {
 			System.out.println("It's super effective!!!");
 			damage = damage * 2;
 		} else if (effective == 2) {
-			System.out.println(defender.getName() + " is immune! It doesn't take damage!");
+			System.out.println(defender.getName() + " is immune to "+ move.getT() + "type moves! It doesn't take damage!");
 			damage = 0;
 		}
 		defender.setHp(defender.getHp() - damage);
 		System.out.println(damage);
 		return damage;
 	}
+	
+	public int tryStatusMove(Pokemon attacker, Pokemon defender, Moves move) {
+		if (hitCheck( attacker, defender, move)) {
+			if (defender.getCondition() == PokeCondition.NONE) { //applying status to a pokemon without a current status
+				defender.setCondition(move.getCondition()); //setting new condition
+				System.out.print(defender.getName() + " has been " + move.getCondition() + "ed!");
+				return 0; //returns 0 dmg
+			} else {
+				System.out.print(defender.getName() + " has already been aflicted with " + defender.getCondition());//trying to apply a status to a status'd pokemon
+				return 0;
+			}
+			
+		} else {
+			System.out.print(attacker + "'s attack missed!");
+			return 0;
+		}
+	}
 
-	public boolean hitCheck(Pokemon attacker, Pokemon defender, Moves move) {
+	public boolean hitCheck(Pokemon attacker, Pokemon defender, Moves move) { //accuracy calculator
 		int randomNumber = (int) (Math.random() * 100);
 		if (randomNumber <= move.getAccuracy()) {
 			return true;
@@ -87,14 +94,138 @@ public class DamageControl {
 		}
 	}
 
-	public int getDamage(Pokemon attacker, Pokemon defender, Moves move) {
+	public int getDamage(Pokemon attacker, Pokemon defender, Moves move) { //calculates damage and status changes, potentially changes defender's stats/hp/etc. has methods that print appropriate narration.
 		if (move.getMoveType().equals("PHYSICAL")) {
 			return dealPhysicalDamage(attacker, defender, move);
 		} else if (move.getMoveType().equals("SPECIAL")) {
 			return dealSpecialDamage(attacker, defender, move);
 		} else {
-			return 0;
+			return tryStatusMove(attacker, defender, move);
 		}
+	}
+	
+	public void statusCheck() { //calls condition-specific methods for each condition for each Pokemon
+		PokeCondition attackCondition = attacker.getCondition();
+		PokeCondition defendCondition = defender.getCondition();
+		switch (attackCondition) {
+			case BURN:
+				burnConsequences(attacker);
+				break;
+			
+			case SLEEP:
+				sleepConsequences(attacker);
+				break;
+				
+			case POISON:
+				poisonConsequences(attacker);
+				break;
+				
+			case PARALYSIS:
+				paralysisConsequences(attacker);
+				break;
+				
+			case FREEZE:
+				freezeConsequences(attacker);
+				break;
+				
+			case FLINCH:
+				flinchConsequences(attacker);
+				break;
+			
+			case NONE:
+				noConsequences(attacker);
+				break;
+			
+			default:
+				break;
+		}
+		switch (defendCondition) {
+		case BURN:
+			burnConsequences(defender);
+			break;
+		
+		case SLEEP:
+			sleepConsequences(defender);
+			break;
+			
+		case POISON:
+			poisonConsequences(defender);
+			break;
+			
+		case PARALYSIS:
+			paralysisConsequences(defender);
+			break;
+			
+		case FREEZE:
+			freezeConsequences(defender);
+			break;
+			
+		case FLINCH:
+			flinchConsequences(defender);
+			break;
+		
+		case NONE:
+			noConsequences(defender);
+			break;
+		
+		default:
+			break;
+	}
+		
+	}
+	
+	public void priorityCheck() { //to be used in battle engine to determine the faster pokemon, and determine attack order.
+		
+	}
+
+	
+	public void burnConsequences(Pokemon afflicted) { //target has burn, will burn until death as burn heals aren't in the game.
+		if (fightEnded == false) {
+			return;
+		} else {
+			//burn damage
+			System.out.print(afflicted.getTrainer()+"'s " + afflicted.getName() + " is hurt by it's burn!");
+		}
+	}
+	
+	public void sleepConsequences(Pokemon afflicted) { //needs to disable attacking for a turn, then reallow attacking
+		boolean hasSlept = false;
+		
+		if (hasSlept == false) {
+			//disable turn
+			hasSlept = true;
+			return;
+		} else {
+			//reenable turn
+			afflicted.setCondition(afflicted.getInitialCondition());
+			System.out.print(afflicted.getTrainer()+"'s " + afflicted.getName() + " woke up!");
+		}
+		
+	}
+	
+	public void poisonConsequences(Pokemon afflicted) { //will be poisoned until death. switching out should stop the damage, like in the games.
+		if (fightEnded == false) {
+			return;
+		} else {
+			//poison damage
+			System.out.print(afflicted.getTrainer()+"'s " + afflicted.getName() + " is hurt by poison!");
+		}
+	}
+	
+	public void paralysisConsequences(Pokemon afflicted) {
+		
+	}
+	
+	public void freezeConsequences(Pokemon afflicted) {
+		
+	}
+	
+	public void flinchConsequences(Pokemon afflicted) {
+		
+	}
+	
+	public void noConsequences(Pokemon unafflicted) {
+		
 	}
 
 	public int isEffective(Moves attacker, Pokemon defender) { // -1 weak, 0 is no bonus, +1 is supereffective, +2 if
