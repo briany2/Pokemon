@@ -314,7 +314,7 @@ public class BattleEngine {
 		//need to call status check here (for missed turns)
 		//need to call priority to return the address of the faster pokemon, then set the other address to slower pokemon.
 		
-		System.out.println(play.getPokemonList().get(0) + " used "
+		System.out.println(play.getName() + "'s " +play.getPokemonList().get(0) + " used "
 				+ play.getPokemonList().get(0).getMoveList().get(choice).getName() + " on "
 				+ play2.getPokemonList().get(0) + "!");
 		// call damage control's damage message method for more string information
