@@ -41,11 +41,6 @@ public class Pokemon {
 	private int speed;
 
 	/**
-	 * A Boolean to check whether a Pokemon is set to lose its next turn.
-	 */
-	private boolean willLoseNextTurn;
-
-	/**
 	 * The First Type of the Pokemon.
 	 */
 	private PokeType t1;
@@ -53,15 +48,6 @@ public class Pokemon {
 	 * The Second Type of the Pokemon.
 	 */
 	private PokeType t2;
-
-	/**
-	 * The current condition of the Pokemon.
-	 */
-	private PokeCondition condition = PokeCondition.NONE;
-	/**
-	 * The initial condition of the Pokemon.
-	 */
-	private PokeCondition initialCondition = PokeCondition.NONE;
 
 	/**
 	 * An arraylist of the Pokemon's moves.
@@ -90,7 +76,7 @@ public class Pokemon {
 	 * @param p1
 	 */
 	public Pokemon(String name, int hp, int attack, int defense, int specialAttack, int specialDefense, int speed,
-			PokeType t1, PokeType t2, PokeCondition p1) {
+			PokeType t1, PokeType t2) {
 		this.name = name;
 		this.hp = hp;
 		this.attack = attack;
@@ -100,8 +86,6 @@ public class Pokemon {
 		this.speed = speed;
 		this.t1 = t1;
 		this.t2 = t2;
-		this.condition = p1;
-		this.initialCondition = p1;
 	}
 
 	/**
@@ -303,51 +287,6 @@ public class Pokemon {
 		for (int i = 0; i < moveList.size(); i++) {
 			System.out.print(i + ". " + this.getMoveList().get(i).toString());
 		}
-	}
-
-	/**
-	 * Gets the condition that a Pokemon has.
-	 * 
-	 * @return the Pokemon's condition.
-	 */
-	public PokeCondition getCondition() {
-		return condition;
-	}
-
-	/**
-	 * Gets the initial condition that a Pokemon has.
-	 * 
-	 * @return the Pokemon's initial condition.
-	 */
-	public PokeCondition getInitialCondition() {
-		return initialCondition;
-	}
-
-	/**
-	 * Sets the condition that a Pokemon has.
-	 * 
-	 * @param condition
-	 */
-	public void setCondition(PokeCondition condition) {
-		this.condition = condition;
-	}
-
-	/**
-	 * Gets whether a Pokemon would lose its next turn.
-	 * 
-	 * @return if the Pokemon will lose its next turn.
-	 */
-	public boolean getWillLoseNextTurn() {
-		return this.willLoseNextTurn;
-	}
-
-	/**
-	 * Sets whether a Pokemon would lose its next turn.
-	 * 
-	 * @param trueOrFalse
-	 */
-	public void setWillLoseNextTurn(boolean trueOrFalse) {
-		this.willLoseNextTurn = trueOrFalse;
 	}
 
 	/**

@@ -48,7 +48,6 @@ public class BattleEngine {
 					m.setT(PokeType.valueOf(move[2]));
 					m.setDamage(Integer.parseInt(move[3]));
 					m.setAccuracy(Integer.parseInt(move[4]));
-					m.setCondition(PokeCondition.valueOf(move[5]));
 					m.setDescription(move[6]);
 					p.addMove(m);
 				}
@@ -80,7 +79,6 @@ public class BattleEngine {
 					m.setT(PokeType.valueOf(move[2]));
 					m.setDamage(Integer.parseInt(move[3]));
 					m.setAccuracy(Integer.parseInt(move[4]));
-					m.setCondition(PokeCondition.valueOf(move[5]));
 					m.setDescription(move[6]);
 					p.addMove(m);
 				}

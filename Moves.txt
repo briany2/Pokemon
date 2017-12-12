@@ -60,5 +60,5 @@ PHYSICAL;Crabhammer;WATER;100;90;NONE;A large pincer is used to hammer the foe.;
 PHYSICAL;Slam;NORMAL;80;75;NONE;The foe is struck with a large claw;
 PHYSICAL;Headbutt;NORMAL;70;100;NONE;The user sticks its head out and rams.;
 SPECIAL;Psychic;PSYCHIC;90;80;NONE;A strong telekinetic attack.;
-PHYSICAL;Zen Headbutt;80;90;FLINCH;The user focuses its willpower to its head and rams the foe.;
+PHYSICAL;Zen Headbutt;PSYCHIC;80;90;FLINCH;The user focuses its willpower to its head and rams the foe.;
 STATUS;Hypnosis;PSYCHIC;0;60;SLEEP;Puts the target to sleep.;

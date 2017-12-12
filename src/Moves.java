@@ -26,10 +26,6 @@ public class Moves {
 	 */
 	private int accuracy;
 	/**
-	 * The condition that the move can set.
-	 */
-	private PokeCondition condition;
-	/**
 	 * The description of the move.
 	 */
 	private String description;
@@ -52,14 +48,12 @@ public class Moves {
 	 * @param condition
 	 * @param description
 	 */
-	public Moves(String moveType, String name, PokeType t, int damage, int accuracy, PokeCondition condition,
-			String description) {
+	public Moves(String moveType, String name, PokeType t, int damage, int accuracy, String description) {
 		this.moveType = moveType;
 		this.name = name;
 		this.t = t;
 		this.damage = damage;
 		this.accuracy = accuracy;
-		this.condition = condition;
 		this.description = description;
 	}
 
@@ -151,24 +145,6 @@ public class Moves {
 	 */
 	public void setAccuracy(int accuracy) {
 		this.accuracy = accuracy;
-	}
-
-	/**
-	 * Gets the condition that the move can set.
-	 * 
-	 * @return the condition
-	 */
-	public PokeCondition getCondition() {
-		return condition;
-	}
-
-	/**
-	 * Sets the condition that the move can set.
-	 * 
-	 * @param condition
-	 */
-	public void setCondition(PokeCondition condition) {
-		this.condition = condition;
 	}
 
 	/**
