@@ -202,9 +202,7 @@ public class DamageControl {
 		if (pokemon1.getCondition() == PokeCondition.PARALYSIS) {  //how do i select a certain condition to test if it equals the pokemon's condition?
 			
 		}
-		if (pokemon2.getCondition() == ) {
-			
-		}
+		return pokemon2;
 	}
 
 	public void burnConsequences(Pokemon afflicted) { // target has burn, will burn until death as burn heals aren't in
