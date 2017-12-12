@@ -6,6 +6,7 @@ public class DamageControl {
 	public Moves move;
 	Random rand = new Random();
 	public boolean fightEnded;
+	public int afflictionCount = 0;
 
 	DamageControl(Pokemon attacker, Pokemon defender, Moves move) {
 		this.attacker = attacker;
@@ -78,14 +79,7 @@ public class DamageControl {
 				return 0; // returns 0 dmg
 			} else {
 				System.out.println(defender.getName() + " has already been afflicted with " + defender.getCondition()+ "!");// trying
-																													// to
-																													// apply
-																													// a
-																													// status
-																													// to
-																													// a
-																													// status'd
-																													// pokemon
+																								
 				this.fightEnded = true; //sets the fightended boolean to true for the next reading of status check
 				return 0;
 			}
@@ -190,17 +184,52 @@ public class DamageControl {
 
 	public Pokemon priorityCheck(Pokemon pokemon1, Pokemon pokemon2) { // to be used in battle engine to determine the faster pokemon, and determine attack order
 		//method for checking if they
-		if (pokemon1.getCondition() == pokemon1.getInitialCondition() && pokemon2.getCondition() == pokemon2.getInitialCondition()) {
-			if (pokemon1.getSpeed() >= pokemon2.getSpeed()) { //case where both are normal
-				return pokemon1;
-			} else {
-				return pokemon2;
-			}
+	
+		if (pokemon1.getWillLoseNextTurn()) {  //how do i select a certain condition to test if it equals the pokemon's condition?
+			lostTurnReason(pokemon1);
 		}
-		if (pokemon1.getCondition() == PokeCondition.PARALYSIS) {  //how do i select a certain condition to test if it equals the pokemon's condition?
-			
+		if (pokemon2.getWillLoseNextTurn()) {
+			lostTurnReason(pokemon2);
 		}
-		return pokemon2;
+		if (pokemon1.getWillLoseNextTurn() && pokemon2.getWillLoseNextTurn()) {
+			pokemon1.setWillLoseNextTurn(false);
+			pokemon2.setWillLoseNextTurn(true);
+			return null;
+		}
+		
+		if (pokemon1.getWillLoseNextTurn()) {
+			return pokemon2;
+		}
+		if (pokemon2.getWillLoseNextTurn()) {
+			return pokemon1;
+		}
+		
+		if (pokemon1.getSpeed() >= pokemon2.getSpeed()) { //case where both are normal
+			return pokemon1;
+		} else {
+			return pokemon2;
+		}
+		
+	}
+	
+	public void lostTurnReason(Pokemon afflicted) { //returns a string describing why a pokemon lost it's turn based on status.
+		if (afflicted.getCondition() == PokeCondition.SLEEP) {
+			System.out.print(afflicted.getTrainer()+"'s "+afflicted.getName()+" is fast asleep.");
+			return;
+		}
+		if (afflicted.getCondition() == PokeCondition.PARALYSIS) {
+			System.out.print(afflicted.getTrainer()+"'s "+afflicted.getName()+" is paralyzed! It can't move!");
+			return;
+		}
+		if (afflicted.getCondition() == PokeCondition.FREEZE) {
+			System.out.print(afflicted.getTrainer()+"'s "+afflicted.getName()+" is frozen solid!");
+			return;
+		} else {
+			System.out.print(afflicted.getTrainer()+"'s "+afflicted.getName()+" flinched!");
+			return;
+		}
+		
+		
 	}
 
 	public void burnConsequences(Pokemon afflicted) { // target has burn, will burn until death as burn heals aren't in
@@ -211,20 +240,33 @@ public class DamageControl {
 			// burn damage
 			afflicted.setHp(afflicted.getHp()-10);
 			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + " is hurt by it's burn!");
+			return;
 		}
 	}
 
 	public void sleepConsequences(Pokemon afflicted) { // needs to disable attacking for a turn, then reallow attacking
-		boolean hasSlept = false;
 
-		if (hasSlept == false) {
-			// disable turn
-			hasSlept = true;
-			return;
-		} else {
+		if (this.afflictionCount == 2) {
 			// reenable turn
 			afflicted.setCondition(afflicted.getInitialCondition());
+			afflicted.setWillLoseNextTurn(false);
 			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + " woke up!");
+			this.afflictionCount = 0;
+			return;
+		} else if (this.afflictionCount == 1) {
+			int random = (int)Math.random()*100;
+			if(random > 66){
+				afflicted.setCondition(afflicted.getInitialCondition());
+				afflicted.setWillLoseNextTurn(false);
+				System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + " woke up!");
+				this.afflictionCount = 0;
+				return;
+			}
+		} else {
+			// disable turn
+			afflicted.setWillLoseNextTurn(true); //should print that the afflicted is asleep.
+			afflictionCount += 1;
+			return;
 		}
 
 	}
@@ -237,25 +279,26 @@ public class DamageControl {
 			// poison damage
 			afflicted.setHp(afflicted.getHp()-15);
 			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + " is hurt by poison!");
+			return;
 		}
 	}
 
 	public void paralysisConsequences(Pokemon afflicted) {
 		if (fightEnded == false) {
-			//disable turn on a % chance
-			//lower speed of afflicted
-			
+			afflicted.setSpeed(afflicted.getSpeed()/2);//lowers speed
+			//disable turn on a % chance 
+			int random = (int)Math.random()*100;
+			if (random <=25) {
+				afflicted.setWillLoseNextTurn(true);
+			}
 			return;
 		} else {
-			//reenable turn
-			//raise speed to default value
-			afflicted.setCondition(afflicted.getInitialCondition());
-			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + "'s paralysis wore off!");
+			return;
 		}
 
 	}
 
-	public void freezeConsequences(Pokemon afflicted) {
+	public void freezeConsequences(Pokemon afflicted) { 
 		if (fightEnded == false) {
 			afflicted.setWillLoseNextTurn(true); //turns on will lose next turn for the priority checker
 			return;
@@ -267,14 +310,14 @@ public class DamageControl {
 		}
 	}
 
-	public void flinchConsequences(Pokemon afflicted) {
+	public void flinchConsequences(Pokemon afflicted) { //should be ok
 		if (fightEnded == false) {
 			afflicted.setWillLoseNextTurn(true); //will prevent pokemon from attacking on it's turn
-			
+			System.out.println(afflicted.getTrainer() + "'s "+afflicted.getName() + "flinched!");
 			return;
 		} else {
 			afflicted.setWillLoseNextTurn(false); //reenable turns for afflicted pokemon
-			
+			afflicted.setCondition(afflicted.getInitialCondition());
 		}
 		
 
