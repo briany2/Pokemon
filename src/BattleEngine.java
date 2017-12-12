@@ -324,9 +324,8 @@ public class BattleEngine {
 																							
 		int getDamage = d.getDamage(play.getPokemonList().get(0), play2.getPokemonList().get(0), 
 				play.getPokemonList().get(0).getMoveList().get(choice));
-
+		System.out.println(play2.getName() + "'s " + play2.getPokemonList().get(0) + " took " + getDamage + " damage!");
 		int newHp = play2.getPokemonList().get(0).getHp() - getDamage; //need to call status check after this line also
-
 		play2.getPokemonList().get(0).setHp(newHp);
 		if (play2.getPokemonList().get(0).getHp() < 0) {
 			play2.getPokemonList().get(0).setHp(0);

@@ -36,8 +36,6 @@ public class DamageControl {
 			System.out.println(defender.getTrainer() + "'s " +defender.getName() + " is immune! It doesn't take damage!");
 			damage = 0;
 		}
-		defender.setHp(defender.getHp() - damage);
-		System.out.println(defender.getTrainer() + "'s " + defender.getName() + " took " +damage + " damage!\n");
 		this.fightEnded = true; //sets the fightended boolean to true for the next reading of status check
 		return damage;
 	}
