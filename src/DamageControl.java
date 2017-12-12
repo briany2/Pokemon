@@ -8,7 +8,7 @@ public class DamageControl {
 	public boolean fightEnded;
 	public int afflictionCount = 0;
 
-	DamageControl(Pokemon attacker, Pokemon defender, Moves move) {
+	public DamageControl(Pokemon attacker, Pokemon defender, Moves move) {
 		this.attacker = attacker;
 		this.defender = defender;
 		this.move = move;
