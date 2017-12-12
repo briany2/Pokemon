@@ -120,7 +120,7 @@ public class DamageControl {
 		}
 	}
 
-	public void statusCheck() { // calls condition-specific methods for each condition for each Pokemon
+	public void statusCheck() { // calls condition-specific methods for each condition for each Pokemon, needs to go into battleengine
 		PokeCondition attackCondition = attacker.getCondition();
 		PokeCondition defendCondition = defender.getCondition();
 		switch (attackCondition) {
@@ -192,12 +192,18 @@ public class DamageControl {
 
 	public Pokemon priorityCheck(Pokemon pokemon1, Pokemon pokemon2) { // to be used in battle engine to determine the faster pokemon, and determine attack order
 		//method for checking if they
-		if (pokemon1.getCondition() == pokemon2.getCondition()) {
-			if (pokemon1.getSpeed() >= pokemon2.getSpeed()) { //case where both are normal or have the same condition
+		if (pokemon1.getCondition() == pokemon1.getInitialCondition() && pokemon2.getCondition() == pokemon2.getInitialCondition()) {
+			if (pokemon1.getSpeed() >= pokemon2.getSpeed()) { //case where both are normal
 				return pokemon1;
 			} else {
 				return pokemon2;
 			}
+		}
+		if (pokemon1.getCondition() == PokeCondition.PARALYSIS) {  //how do i select a certain condition to test if it equals the pokemon's condition?
+			
+		}
+		if (pokemon2.getCondition() == ) {
+			
 		}
 	}
 
@@ -207,6 +213,7 @@ public class DamageControl {
 			return;
 		} else {
 			// burn damage
+			afflicted.setHp(afflicted.getHp()-10);
 			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + " is hurt by it's burn!");
 		}
 	}
@@ -232,6 +239,7 @@ public class DamageControl {
 			return;
 		} else {
 			// poison damage
+			afflicted.setHp(afflicted.getHp()-15);
 			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + " is hurt by poison!");
 		}
 	}
