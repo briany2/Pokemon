@@ -357,31 +357,4 @@ public class BattleEngine {
 		}
 		return false;
 	}
-
-	public void checkStatus(Player play) {
-		//Random rand = new Random(); (it said this was unused so i commented it out)
-		switch (play.getPokemonList().get(0).getCondition()) {
-		case BURN:
-			int burned = play.getPokemonList().get(0).getHp() - 10;
-			play.getPokemonList().get(0).setHp(burned);
-			break;
-		case FLINCH:
-			break;
-		case FREEZE:
-			break;
-		case PARALYSIS:
-			play.getPokemonList().get(0).setSpeed(0);
-			break;
-		case POISON:
-			int poisoned = play.getPokemonList().get(0).getHp() - 10;
-			play.getPokemonList().get(0).setHp(poisoned);
-			break;
-		case SLEEP:
-
-			break;
-		default:
-			break;
-		}
-
-	}
 }
