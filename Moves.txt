@@ -1,4 +1,4 @@
-STATUS;Sleep Powder;GRASS;0;75;SLEEP;Puts the target to sleep.;
+PHYSICAL;Tackle;NORMAL;40;100;NONE;Tackle the target, dealing physical damage.;
 SPECIAL;Solar Beam;GRASS;80;90;NONE;Unleashes the power of the sun onto a target.;
 PHYSICAL;Razor Leaf;GRASS;55;95;NONE;Has a high critical hit ratio.;
 PHYSICAL;Body Slam;NORMAL;80;85;PARALYSIS;Slam with a chance to paralyze the target.;
@@ -10,7 +10,7 @@ SPECIAL;Hydropump;WATER;110;80;NONE;Pumps deadly dihydrogen-monoxide at the targ
 SPECIAL;Surf;WATER;90;100;NONE;Would hit all targets on field in a double battle.;
 SPECIAL;Ice Beam;ICE;90;90;FREEZE;Has a chance to freeze the target solid.;
 PHYSICAL;Strength;NORMAL;80;100;NONE;Allows you to move boulder if used outside of combat.;
-STATUS;Hypnosis;PSYCHIC;0;60;SLEEP;Puts the target to sleep.;
+PHYSICAL;Tackle;NORMAL;40;100;NONE;Tackle the target, dealing physical damage.;
 PHYSICAL;Lick;GHOST;60;100;NONE;Licks target, dealing damage.;
 SPECIAL;Psychic;PSYCHIC;90;80;NONE;A strong telekinetic attack..;
 PHYSICAL;Mega Punch;NORMAL;80;85;NONE;Punch the target, dealing damage.;
@@ -31,7 +31,7 @@ PHYSICAL;Strength;NORMAL;80;100;NONE;Allows you to move boulder if used outside 
 PHYSICAL;Submission;FIGHTING;80;80;NONE;User receives recoil damage equal to 1/3 dmg dealt.;
 PHYSICAL;Mega Kick;NORMAL;120;75;NONE;Kicks the target mega hard.;
 SPECIAL;Gust;FLYING;40;100;NONE;Whips up a strong gust of wind.;
-STATUS;Sleep Powder;GRASS;0;75;SLEEP;Puts the target to sleep.;
+PHYSICAL;Tackle;NORMAL;40;100;NONE;Tackle the target, dealing physical damage.;
 SPECIAL;Bug Buzz;BUG;90;100;NONE;The user vibrates its wings to generate a damaging sound wave.;
 SPECIAL;Psybeam;PSYCHIC;65;100;NONE;Has a one-in-ten of making the target confused.;
 SPECIAL;Gust;FLYING;40;100;NONE;Whips up a strong gust of wind.;
@@ -39,7 +39,7 @@ PHYSICAL;Quick Attack;NORMAL;40;100;NONE;An extremely fast attack.;
 PHYSICAL;Wing Attack;FLYING;60;100;NONE;Strikes the target with wings.;
 SPECIAL;Twister;DRAGON;40;100;NONE;Whips up a vicious twister to tear at the foe.;
 SPECIAL;Thunder Shock;ELECTRIC;40;100;PARALYSIS;An electrical attack that may paralyze the foe.;
-STATUS;Thunder Wave;ELECTRIC;0;90;PARALYSIS;A weak jolt of electricity that paralyzes the foe.;
+PHYSICAL;Quick Attack;NORMAL;40;100;NONE;An extremely fast attack.;
 SPECIAL;Thunder;ELECTRIC;110;70;PARALYSIS;A brutal lightning attack that may also leave the foe paralyzed.;
 PHYSICAL;Mega Kick;NORMAL;120;75;NONE;A powerful kicking attack.;
 SPECIAL;Twister;DRAGON;40;100;NONE;Whips up a vicious twister to tear at the foe.;
@@ -61,4 +61,4 @@ PHYSICAL;Slam;NORMAL;80;75;NONE;The foe is struck with a large claw;
 PHYSICAL;Headbutt;NORMAL;70;100;NONE;The user sticks its head out and rams.;
 SPECIAL;Psychic;PSYCHIC;90;80;NONE;A strong telekinetic attack.;
 PHYSICAL;Zen Headbutt;PSYCHIC;80;90;FLINCH;The user focuses its willpower to its head and rams the foe.;
-STATUS;Hypnosis;PSYCHIC;0;60;SLEEP;Puts the target to sleep.;
+PHYSICAL;Tackle;NORMAL;40;100;NONE;Tackle the target, dealing physical damage.;
