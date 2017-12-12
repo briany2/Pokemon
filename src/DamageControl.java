@@ -17,13 +17,13 @@ public class DamageControl {
 	public int dealPhysicalDamage(Pokemon attacker, Pokemon defender, Moves move) {
 		int n = rand.nextInt(100 + 1);
 		if (n > move.getAccuracy()) {
-			System.out.println(attacker + "'s attack missed!");
+			System.out.println(attacker.getTrainer() + "'s " + attacker + "'s attack missed!");
 			return 0;
 		}
 		int damage = ((18 * move.getDamage() * attacker.getAttack() / defender.getDefense()) / 50 + 2);
 		if (n < 10) {
 			System.out.println("Critical Hit!");
-			damage = damage * 3;
+			damage = damage * 2; //changed this value to 2 from 3 because of balance and how it actually works
 		}
 		int effective = isEffective(move, defender);
 		if (effective == -1) {
@@ -33,18 +33,19 @@ public class DamageControl {
 			System.out.println("It's super effective!!!");
 			damage = damage * 2;
 		} else if (effective == 2) {
-			System.out.println(defender.getName() + " is immune! It doesn't take damage!");
+			System.out.println(defender.getTrainer() + "'s " +defender.getName() + " is immune! It doesn't take damage!");
 			damage = 0;
 		}
 		defender.setHp(defender.getHp() - damage);
-		System.out.println(damage);
+		System.out.println(defender.getTrainer() + "'s " + defender.getName() + " took " +damage + " damage!\n");
+		this.fightEnded = true; //sets the fightended boolean to true for the next reading of status check
 		return damage;
 	}
 
 	public int dealSpecialDamage(Pokemon attacker, Pokemon defender, Moves move) {
 		int n = rand.nextInt(100 + 1);
 		if (n > move.getAccuracy()) {
-			System.out.println(attacker + "'s attack missed!");
+			System.out.println(attacker.getTrainer() + "'s " + attacker + "'s attack missed!");
 			return 0;
 		}
 		int damage = ((18 * move.getDamage() * attacker.getSpecialAttack() / defender.getSpecialDefense()) / 50 + 2);
@@ -61,23 +62,24 @@ public class DamageControl {
 			damage = damage * 2;
 		} else if (effective == 2) {
 			System.out.println(
-					defender.getName() + " is immune to " + move.getT() + "type moves! It doesn't take damage!");
+					defender.getTrainer() + "'s " + defender.getName() + " is immune to " + move.getT() + "type moves! It doesn't take damage!");
 			damage = 0;
 		}
 		defender.setHp(defender.getHp() - damage);
-		System.out.println(damage);
+		System.out.println(defender.getTrainer() + "'s " + defender.getName() + " took " +damage + " damage!\n");
+		this.fightEnded = true; //sets the fightended boolean to true for the next reading of status check
 		return damage;
 	}
 
 	public int tryStatusMove(Pokemon attacker, Pokemon defender, Moves move) {
 		if (hitCheck(attacker, defender, move)) {
-			if (defender.getCondition() == PokeCondition.NONE) { // applying status to a pokemon without a current
-																	// status
-				defender.setCondition(move.getCondition()); // setting new condition
-				System.out.print(defender.getName() + " has been " + move.getCondition() + "ed!");
+			if (defender.getCondition() == PokeCondition.NONE) { // applying status to a pokemon without a current status
+																	// 
+				defender.setCondition(move.getCondition()); // setting new condition to afflicted pokemon
+				System.out.println(defender.getName() + " has been " + move.getCondition() + "ed!");
 				return 0; // returns 0 dmg
 			} else {
-				System.out.print(defender.getName() + " has already been afflicted with " + defender.getCondition());// trying
+				System.out.println(defender.getName() + " has already been afflicted with " + defender.getCondition()+ "!");// trying
 																													// to
 																													// apply
 																													// a
@@ -86,6 +88,7 @@ public class DamageControl {
 																													// a
 																													// status'd
 																													// pokemon
+				this.fightEnded = true; //sets the fightended boolean to true for the next reading of status check
 				return 0;
 			}
 
@@ -187,9 +190,15 @@ public class DamageControl {
 
 	}
 
-	public void priorityCheck() { // to be used in battle engine to determine the faster pokemon, and determine
-									// attack order.
-
+	public Pokemon priorityCheck(Pokemon pokemon1, Pokemon pokemon2) { // to be used in battle engine to determine the faster pokemon, and determine attack order
+		//method for checking if they
+		if (pokemon1.getCondition() == pokemon2.getCondition()) {
+			if (pokemon1.getSpeed() >= pokemon2.getSpeed()) { //case where both are normal or have the same condition
+				return pokemon1;
+			} else {
+				return pokemon2;
+			}
+		}
 	}
 
 	public void burnConsequences(Pokemon afflicted) { // target has burn, will burn until death as burn heals aren't in
@@ -198,7 +207,7 @@ public class DamageControl {
 			return;
 		} else {
 			// burn damage
-			System.out.print(afflicted.getTrainer() + "'s " + afflicted.getName() + " is hurt by it's burn!");
+			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + " is hurt by it's burn!");
 		}
 	}
 
@@ -212,7 +221,7 @@ public class DamageControl {
 		} else {
 			// reenable turn
 			afflicted.setCondition(afflicted.getInitialCondition());
-			System.out.print(afflicted.getTrainer() + "'s " + afflicted.getName() + " woke up!");
+			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + " woke up!");
 		}
 
 	}
@@ -223,24 +232,52 @@ public class DamageControl {
 			return;
 		} else {
 			// poison damage
-			System.out.print(afflicted.getTrainer() + "'s " + afflicted.getName() + " is hurt by poison!");
+			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + " is hurt by poison!");
 		}
 	}
 
 	public void paralysisConsequences(Pokemon afflicted) {
+		if (fightEnded == false) {
+			//disable turn on a % chance
+			//lower speed of afflicted
+			
+			return;
+		} else {
+			//reenable turn
+			//raise speed to default value
+			afflicted.setCondition(afflicted.getInitialCondition());
+			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + "'s paralysis wore off!");
+		}
 
 	}
 
 	public void freezeConsequences(Pokemon afflicted) {
-
+		if (fightEnded == false) {
+			afflicted.setWillLoseNextTurn(true); //turns on will lose next turn for the priority checker
+			return;
+		} else {
+			afflicted.setWillLoseNextTurn(false); //reenable turn at the second status check
+			
+			afflicted.setCondition(afflicted.getInitialCondition()); //remove freeze from pokemon
+			System.out.println(afflicted.getTrainer() + "'s " + afflicted.getName() + " thawed out!");
+		}
 	}
 
 	public void flinchConsequences(Pokemon afflicted) {
+		if (fightEnded == false) {
+			afflicted.setWillLoseNextTurn(true); //will prevent pokemon from attacking on it's turn
+			
+			return;
+		} else {
+			afflicted.setWillLoseNextTurn(false); //reenable turns for afflicted pokemon
+			
+		}
+		
 
 	}
 
 	public void noConsequences(Pokemon unafflicted) {
-
+		return;
 	}
 
 	public int isEffective(Moves attacker, Pokemon defender) { // -1 weak, 0 is no bonus, +1 is supereffective, +2 if

@@ -295,7 +295,7 @@ public class BattleEngine {
 		}
 		System.out.println(play.getName() + " has " + count + " alive Pokemon.");
 		if (count == 0) {
-			System.out.println(play.getName()+ " has no usable Pokemon!");
+			System.out.println(play.getName()+ " has no usable Pokemon!"); //want to declare the other player the winner here
 			return false;
 		}
 		return true;
@@ -306,10 +306,14 @@ public class BattleEngine {
 	}
 
 	public static boolean printFight(Player play, Player play2, int choice) {
-		if (choice >= play.getPokemonList().get(0).getMoveList().size()) {
+		if (choice >= play.getPokemonList().get(0).getMoveList().size()) { //checks for valid input
 			System.out.println("Invalid Number.");
 			return false;
 		}
+		//should have both players choose their move here
+		//need to call status check here (for missed turns)
+		//need to call priority to return the address of the faster pokemon, then set the other address to slower pokemon.
+		
 		System.out.println(play.getPokemonList().get(0) + " used "
 				+ play.getPokemonList().get(0).getMoveList().get(choice).getName() + " on "
 				+ play2.getPokemonList().get(0) + "!");
@@ -317,16 +321,16 @@ public class BattleEngine {
 		DamageControl d = new DamageControl(play.getPokemonList().get(0), play2.getPokemonList().get(0), // constructor
 																											// call
 				play.getPokemonList().get(0).getMoveList().get(choice));
-
-		int getDamage = d.getDamage(play.getPokemonList().get(0), play2.getPokemonList().get(0), //
+																							
+		int getDamage = d.getDamage(play.getPokemonList().get(0), play2.getPokemonList().get(0), 
 				play.getPokemonList().get(0).getMoveList().get(choice));
 
-		int newHp = play2.getPokemonList().get(0).getHp() - getDamage;
+		int newHp = play2.getPokemonList().get(0).getHp() - getDamage; //need to call status check after this line also
 
 		play2.getPokemonList().get(0).setHp(newHp);
 		if (play2.getPokemonList().get(0).getHp() < 0) {
 			play2.getPokemonList().get(0).setHp(0);
-			System.out.println(play2.getPokemonList().get(0) + " has fainted!");
+			System.out.println(play2.getPokemonList().get(0) + " has fainted!"); //i want to add a trainer name here
 		}
 		return true;
 	}
@@ -341,7 +345,7 @@ public class BattleEngine {
 			return false;
 		} else {
 			System.out.println(play.getPokemonList().get(0) + ", come back!");
-			System.out.println(play.getName() + " sends out " + play.getPokemonList().get(choice2).getName());
+			System.out.println(play.getName() + " sends out " + play.getPokemonList().get(choice2).getName()+"\n");//added spacing
 			Collections.swap(play.getPokemonList(), 0, choice2);
 			return true;
 		}
@@ -355,7 +359,7 @@ public class BattleEngine {
 	}
 
 	public void checkStatus(Player play) {
-		Random rand = new Random();
+		//Random rand = new Random(); (it said this was unused so i commented it out)
 		switch (play.getPokemonList().get(0).getCondition()) {
 		case BURN:
 			int burned = play.getPokemonList().get(0).getHp() - 10;

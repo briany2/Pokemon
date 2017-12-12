@@ -18,7 +18,7 @@ public class Pokemon {
 	private PokeType t2;
 
 	private PokeCondition condition;
-	private PokeCondition initialCondition; // need this to be allowed.
+	private PokeCondition initialCondition;
 
 	private ArrayList<Moves> moveList = new ArrayList<Moves>();
 
