@@ -57,11 +57,11 @@ public class Pokemon {
 	/**
 	 * The current condition of the Pokemon.
 	 */
-	private PokeCondition condition;
+	private PokeCondition condition = PokeCondition.NONE;
 	/**
 	 * The initial condition of the Pokemon.
 	 */
-	private PokeCondition initialCondition;
+	private PokeCondition initialCondition = PokeCondition.NONE;
 
 	/**
 	 * An arraylist of the Pokemon's moves.
